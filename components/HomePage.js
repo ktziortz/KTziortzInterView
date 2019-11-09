@@ -16,7 +16,7 @@ export default class HomePage extends React.Component {
     loadFlag = true;
 
     findMyLocation = () => {
-        loadFlag = false;
+        this.loadFlag = false;
         navigator.geolocation.getCurrentPosition(
             position => {
                 let location = {
@@ -50,7 +50,8 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        this.loadflag ? this.findMyLocation() : '';
+        if (this.loadflag)
+            this.findMyLocation();
         return (
             <View style={styles.container}>
                 <Text style={{ marginTop: 40, fontSize: 20 }}>App Home Page</Text>
@@ -60,7 +61,7 @@ export default class HomePage extends React.Component {
                             style={styles.button}
                             onPress={this.buttonClickSecondPage.bind(this)}
                         >
-                        <Text style={styles.text}>Goto Second Page</Text>
+                            <Text style={styles.text}>Goto Second Page</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

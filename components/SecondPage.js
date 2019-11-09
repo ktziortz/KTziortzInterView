@@ -18,7 +18,11 @@ export default class SecondPage extends React.Component {
   }
 
   buttonClickMap = () => {
-    this.props.navigation.navigate('Map')
+   Actions.Map(
+      {
+        addresses: this.props.addresses,
+        location: this.props.location,
+      });
   };
 
   render() {
@@ -35,7 +39,7 @@ export default class SecondPage extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.buttonClickMap()}>
+              onPress={this.buttonClickMap.bind(this)}>
               <Text style={styles.text}>Map</Text>
             </TouchableOpacity>
           </View>
