@@ -13,11 +13,10 @@ export default class HomePage extends React.Component {
         };
     }
 
-    loadFlag = true;
 
     findMyLocation = () => {
-        this.loadFlag = false;
-        navigator.geolocation.getCurrentPosition(
+        let id ;
+        id = navigator.geolocation.getCurrentPosition(
             position => {
                 let location = {
                     latitude: position.coords.latitude,
@@ -27,18 +26,27 @@ export default class HomePage extends React.Component {
                 this.setState({ getLocation: 1 });
             },
             error => {
+                this.handleLocationError(error)
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 15,
+                maximumAge: 5
+            });
+            navigator.geolocation.clearWatch(id);
+    };
+
+    handleLocationError(error) {
+        switch (error.code) {
+            case 1:
                 this.setState({ getLocation: 0 });
                 Alert.alert(
                     'Warning',
                     'Some services may not work correctly.'
                 );
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-            });
-    };
+                break;
+        }
+    }
 
     buttonClickSecondPage() {
         Actions.SecondPage(
@@ -50,8 +58,7 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        if (this.loadflag)
-            this.findMyLocation();
+        this.findMyLocation();
         return (
             <View style={styles.container}>
                 <Text style={{ marginTop: 40, fontSize: 20 }}>App Home Page</Text>
